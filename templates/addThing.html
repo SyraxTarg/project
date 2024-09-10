@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='darkStyle.css')}}" />
+    <script src="{{url_for('static', filename='darkMode.js')}}" defer></script>
+    <title>Document</title>
+  </head>
+  <body>
+    {% if user %} {% with user=user %} {% include 'header.php' %} {% endwith %}
+    {% else %} {% include 'header.php' %} {% endif %}
+    <div class="newThing">
+      <form
+        class="form"
+        action="{{ url_for('newThing') }}"
+        method="post"
+        class="formThing"
+      >
+        <div class="container">
+          <input
+            type="text"
+            required="required"
+            name="thing"
+            class="thingInput"
+          />
+          <label>Add a thing</label>
+          <i></i>
+        </div>
+        <div class="ajouter">
+          <button type="submit" class="add">New</button>
+        </div>
+      </form>
+    </div>
+    {% include 'footer.html' %}
+  </body>
+</html>
+
+<style>
+  body {
+    background-image: url("https://i.gifer.com/Pm0f.gif");
+    background-size: cover;
+  }
+</style>

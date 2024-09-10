@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='darkStyle.css')}}"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="{{url_for('static', filename='files.js')}}" defer></script>
+    <script src="{{url_for('static', filename='darkMode.js')}}" defer></script>
+    <title>Files</title>
+  </head>
+  <body class="fileBodyLight fileBody">
+    {% if user %} {% with user=user %} {% include 'header.php' %} {% endwith %}
+    {% else %} {% include 'header.php' %} {% endif %}
+    <h5 id="pageIndex"></h5>
+    <div class="filePagination"></div>
+    <div class="myFiles"></div>
+    {% include 'footer.html' %}
+  </body>
+</html>
+
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Exo:100);
+  /* Background data (Original source: https://subtlepatterns.com/grid-me/) */
+  /* Animations */
+  @-webkit-keyframes bg-scrolling-reverse {
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  @-moz-keyframes bg-scrolling-reverse {
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  @-o-keyframes bg-scrolling-reverse {
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  @keyframes bg-scrolling-reverse {
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  @-webkit-keyframes bg-scrolling {
+    0% {
+      background-position: 50px 50px;
+    }
+  }
+  @-moz-keyframes bg-scrolling {
+    0% {
+      background-position: 50px 50px;
+    }
+  }
+  @-o-keyframes bg-scrolling {
+    0% {
+      background-position: 50px 50px;
+    }
+  }
+  @keyframes bg-scrolling {
+    0% {
+      background-position: 50px 50px;
+    }
+  }
+</style>

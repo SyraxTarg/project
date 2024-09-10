@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>projets</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='darkStyle.css')}}"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="{{url_for('static', filename='darkMode.js')}}" defer></script>
+    <script src="{{url_for('static', filename='projects.js')}}" defer></script>
+  </head>
+  <body class="projectsBodyLight projectsBody">
+    {% if user %} {% with user=user %} {% include 'header.php'%} {% endwith %}
+    {% else %} {% include 'header.php' %} {% endif %}
+    <h1 id="mesProjets">
+      Mes <span class="underlined underline-clip">projets</span>
+    </h1>
+    <div id="github"></div>
+    {% include 'footer.html' %}
+  </body>
+</html>
