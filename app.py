@@ -153,11 +153,11 @@ def valyrianForm():
     return postRoutes.valyrianForm()
 
 
-@app.route("/api/v1/valyrian", methods=["POST"])
-def valyrian():
-    with open("logs.log", "a") as f:
-        f.write("request \n")
-    return postRoutes.valyrian()
+# @app.route("/api/v1/valyrian", methods=["POST"])
+# def valyrian():
+#     with open("logs.log", "a") as f:
+#         f.write("request \n")
+#     return postRoutes.valyrian()
 
 
 @app.route("/api/v1/picture")
@@ -189,4 +189,5 @@ def filePage():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
