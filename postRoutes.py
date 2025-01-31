@@ -95,23 +95,23 @@ def logout():
     return redirect(url_for("home"))
 
 
-def valyrianForm():
-    user = getCurrentUser()
-    return render_template('valyrian.html', user=user)
+# def valyrianForm():
+#     user = getCurrentUser()
+#     return render_template('valyrian.html', user=user)
 
-def valyrian():
-    translator = Translator(to_lang="en", from_lang="fr")
-    translation = translator.translate(f"{request.form["texte"]}")
-    body = {"text": f"{translation}"} 
+# def valyrian():
+#     translator = Translator(to_lang="en", from_lang="fr")
+#     translation = translator.translate(f"{request.form["texte"]}")
+#     body = {"text": f"{translation}"} 
 
-    response = requests.post(
-        "https://api.funtranslations.com/translate/valyrian.json", data=body
-    )
+#     response = requests.post(
+#         "https://api.funtranslations.com/translate/valyrian.json", data=body
+#     )
 
-    if response.status_code == 200:
-        return  response.json()
-    else:
-        return(f"Erreur lors de la requête : {response.status_code}")
+#     if response.status_code == 200:
+#         return  response.json()
+#     else:
+#         return(f"Erreur lors de la requête : {response.status_code}")
     
 def addPicture():
     user = getCurrentUser()
