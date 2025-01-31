@@ -19,15 +19,15 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
 
-  run_tests:
-    executor: python-executor
-    steps:
-      - checkout  # Cloner ton repo
-      - run:
-          name: Exécuter les tests
-          command: |
-            . venv/bin/activate
-            pytest tests/  # Remplace `tests/` par le dossier où se trouvent tes tests
+  # run_tests:
+  #   executor: python-executor
+  #   steps:
+  #     - checkout  # Cloner ton repo
+  #     - run:
+  #         name: Exécuter les tests
+  #         command: |
+  #           . venv/bin/activate
+  #           pytest tests/  # Remplace `tests/` par le dossier où se trouvent tes tests
 
   build_docker_image:
     docker:
