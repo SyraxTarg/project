@@ -19,16 +19,6 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
 
-  # run_tests:
-  #   executor: python-executor
-  #   steps:
-  #     - checkout  # Cloner ton repo
-  #     - run:
-  #         name: Exécuter les tests
-  #         command: |
-  #           . venv/bin/activate
-  #           pytest tests/  # Remplace `tests/` par le dossier où se trouvent tes tests
-
   build_docker_image:
     docker:
       - image: docker:19.03.12
@@ -57,12 +47,9 @@ workflows:
   build_and_deploy:
     jobs:
       - install_dependencies
-      # - run_tests:
-      #     requires:
-      #       - install_dependencies
       - build_docker_image:
-          # requires:
-          #   - run_tests
+          requires:
+            - install_dependencies
       - deploy:
           requires:
             - build_docker_image
