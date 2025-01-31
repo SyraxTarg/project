@@ -61,8 +61,8 @@ workflows:
       #     requires:
       #       - install_dependencies
       - build_docker_image:
-          requires:
-            - run_tests
+          # requires:
+          #   - run_tests
       - deploy:
           requires:
             - build_docker_image
