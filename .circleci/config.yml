@@ -21,7 +21,7 @@ jobs:
 
   build_docker_image:
     docker:
-      - image: docker:19.03.12
+      - image: docker
     steps:
       - checkout
       - setup_remote_docker:
