@@ -1,34 +1,68 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:python:.
 version: 2.1
-orbs:
-  python: circleci/python@2
-jobs:
-  test-python:
-    # Install dependencies and run tests
+
+executors:
+  python-executor:
     docker:
-      - image: cimg/python:3.8-node
+      - image: circleci/python:3.9  # Utilise une image Docker officielle pour Python
+    working_directory: ~/repo
+
+jobs:
+  install_dependencies:
+    executor: python-executor
+    steps:
+      - checkout  # Cloner ton repo
+      - run:
+          name: Installer les dépendances
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+  run_tests:
+    executor: python-executor
+    steps:
+      - checkout  # Cloner ton repo
+      - run:
+          name: Exécuter les tests
+          command: |
+            . venv/bin/activate
+            pytest tests/  # Remplace `tests/` par le dossier où se trouvent tes tests
+
+  build_docker_image:
+    docker:
+      - image: docker:19.03.12
     steps:
       - checkout
-      - python/install-packages
+      - setup_remote_docker:
+          version: 19.03.12
+          docker_layer_caching: true
       - run:
-          name: Run tests
-          command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
-      - store_test_results:
-          path: junit.xml
+          name: Build Docker image
+          command: |
+            docker build -t mon-image-docker .
+
   deploy:
-    # This is an example deploy job, not actually used by the workflow
     docker:
-      - image: cimg/base:stable
+      - image: circleci/python:3.9  # Ou ton image Python si tu préfères
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Déployer sur Kubernetes
+          command: |
+            kubectl apply -f deployment.yaml  # Assure-toi d'avoir le fichier `deployment.yaml` pour Kubernetes
+
 workflows:
-  build-and-test:
+  version: 2
+  build_and_deploy:
     jobs:
-      - test-python
-    # - deploy:
-    #     requires:
-    #       - test-python
+      - install_dependencies
+      - run_tests:
+          requires:
+            - install_dependencies
+      - build_docker_image:
+          requires:
+            - run_tests
+      - deploy:
+          requires:
+            - build_docker_image
