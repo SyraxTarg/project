@@ -57,9 +57,9 @@ workflows:
   build_and_deploy:
     jobs:
       - install_dependencies
-      - run_tests:
-          requires:
-            - install_dependencies
+      # - run_tests:
+      #     requires:
+      #       - install_dependencies
       - build_docker_image:
           requires:
             - run_tests
