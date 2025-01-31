@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t mon-image-docker .
+            docker build -t gestiondb .
 
   deploy:
     docker:
@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Déployer sur Kubernetes
           command: |
-            kubectl apply -f deployment.yaml  # Assure-toi d'avoir le fichier `deployment.yaml` pour Kubernetes
+            kubectl apply -f gestiondb-deploy.yaml  # Assure-toi d'avoir le fichier `deployment.yaml` pour Kubernetes
 
 workflows:
   version: 2
