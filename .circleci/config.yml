@@ -20,6 +20,8 @@ jobs:
             pip install -r requirements.txt
 
   build_docker_image:
+    docker:
+      - image: docker
     steps:
       - checkout
       - setup_remote_docker:
