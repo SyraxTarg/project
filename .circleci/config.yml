@@ -1,55 +1,19 @@
 version: 2.1
 
-executors:
-  python-executor:
-    docker:
-      - image: circleci/python:3.9  # Utilise une image Docker officielle pour Python
-    working_directory: ~/repo
-
 jobs:
-  install_dependencies:
-    executor: python-executor
-    steps:
-      - checkout  # Cloner ton repo
-      - run:
-          name: Installer les dépendances
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-
-  build_docker_image:
+  deploy:
     docker:
-      - image: docker
+      - image: circleci/python:3.8
+      - image: circleci/python:3.8
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.12
+          version: 20.10.7
           docker_layer_caching: true
       - run:
-          name: Build Docker image
+          name: "Installer Docker"
           command: |
-            docker build -t gestiondb .
-
-  deploy:
-    docker:
-      - image: circleci/python:3.9  # Ou ton image Python si tu préfères
-    steps:
-      - checkout
-      - run:
-          name: Déployer sur Kubernetes
-          command: |
-            kubectl apply -f gestiondb-deploy.yaml  # Assure-toi d'avoir le fichier `deployment.yaml` pour Kubernetes
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - install_dependencies
-      - build_docker_image:
-          requires:
-            - install_dependencies
-      - deploy:
-          requires:
-            - build_docker_image
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+            sudo systemctl enable docker
+            sudo service docker start
