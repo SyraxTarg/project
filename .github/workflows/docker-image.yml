@@ -7,12 +7,32 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Build et tag de l'image
+      run: |
+        docker build -t http://$(minikube ip):30470/ton-image:latest .
+        docker tag http://$(minikube ip):30470/ton-image:latest http://$(minikube ip):30470/ton-image:v1
+
+    - name: Pousser l'image dans le registry
+      run: |
+        docker push http://$(minikube ip):30470/ton-image:latest
+        docker push http://$(minikube ip):30470/ton-image:v1
+
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+    - name: SSH into VM and deploy
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        script: |
+          docker pull http://$(minikube ip):30470/my-image-name:latest
+          docker stop mon-conteneur || true
+          docker rm mon-conteneur || true
+          docker run -d --name mon-conteneur -p 8081:80 http://$(minikube ip):30470/my-image-name:latest
