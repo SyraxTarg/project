@@ -15,8 +15,7 @@ jobs:
 
     - name: Build et push de l’image Docker
       run: |
-        REGISTRY="10.102.213.145:31713"
-        IMAGE_NAME="$REGISTRY/ton-image"
+        IMAGE_NAME="registry.ton-image"
     
         docker build -t $IMAGE_NAME:latest .
         docker tag $IMAGE_NAME:latest $IMAGE_NAME:v1
@@ -32,7 +31,7 @@ jobs:
       uses: appleboy/ssh-action@v0.1.6
       with:
         script: |
-          docker pull http://$(minikube ip):31713/my-image-name:latest
+          docker pull http://$(minikube ip):30470/my-image-name:latest
           docker stop mon-conteneur || true
           docker rm mon-conteneur || true
-          docker run -d --name mon-conteneur -p 8081:80 http://$(minikube ip):31713/my-image-name:latest
+          docker run -d --name mon-conteneur -p 8081:80 http://$(minikube ip):30470/my-image-name:latest
