@@ -15,13 +15,13 @@ jobs:
 
     - name: Build et tag de l'image
       run: |
-        docker build -t http://$(minikube ip):30470/ton-image:latest .
-        docker tag http://$(minikube ip):30470/ton-image:latest http://$(minikube ip):30470/ton-image:v1
+        docker build -t ton-image:latest .
+        docker tag ton-image:latest ton-image:v1
 
     - name: Pousser l'image dans le registry
       run: |
-        docker push http://$(minikube ip):30470/ton-image:latest
-        docker push http://$(minikube ip):30470/ton-image:v1
+        docker push ton-image:latest
+        docker push ton-image:v1
 
 
   deploy:
