@@ -20,7 +20,7 @@
   <div class="content">
     <div class="welcome">
       {% if user %}
-      <h2>Welcome, {{ user.name }}!</h2>
+      <h2>Welcome, {{ user.name }}! HELLO</h2>
       {% else %}
       <h2>Welcome</h2>
       {% endif %}
