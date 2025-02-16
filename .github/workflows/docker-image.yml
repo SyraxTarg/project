@@ -24,16 +24,6 @@ jobs:
         docker push $IMAGE_NAME:v1
 
 
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-    - name: SSH into VM and deploy
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        script: |
-          # Utilisation du NodePort externe (30470)
-          docker pull $(minikube ip):30470/my-image-name:latest
           docker stop mon-conteneur || true
           docker rm mon-conteneur || true
           docker run -d --name mon-conteneur -p 8081:80 $(minikube ip):30470/my-image-name:latest
