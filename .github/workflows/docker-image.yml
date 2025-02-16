@@ -22,8 +22,3 @@ jobs:
         docker tag $IMAGE_NAME:latest $IMAGE_NAME:v1
         docker push $IMAGE_NAME:latest
         docker push $IMAGE_NAME:v1
-
-
-          docker stop mon-conteneur || true
-          docker rm mon-conteneur || true
-          docker run -d --name mon-conteneur -p 8081:80 $(minikube ip):30470/my-image-name:latest
