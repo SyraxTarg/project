@@ -25,8 +25,8 @@ jobs:
 
     - name: deploy
       run: |
-        docker pull $IMAGE_NAME
-        minikube image load $IMAGE_NAME:latest
-        kubectl create deployment project --image=$IMAGE_NAME:latest --dry-run=client -o yaml > deploy-project.yaml
+        docker pull $(minikube ip):30470/ton-image
+        minikube image load $(minikube ip):30470/ton-image:latest
+        kubectl create deployment project --image=$(minikube ip):30470/ton-image:latest --dry-run=client -o yaml > deploy-project.yaml
         kubectl apply -f deploy-project.yaml
 
