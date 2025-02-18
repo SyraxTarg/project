@@ -22,3 +22,11 @@ jobs:
         docker tag $IMAGE_NAME:latest $IMAGE_NAME:v1
         docker push $IMAGE_NAME:latest
         docker push $IMAGE_NAME:v1
+
+    - name: deploy
+      run: |
+        docker pull $IMAGE_NAME:latest
+        minikube image load $IMAGE_NAME:latest
+        kubectl create deployment project --image=$IMAGE_NAME:latest --dry-run=client -o yaml > deploy-project.yaml
+        kubectl apply -f deploy-project.yaml
+
