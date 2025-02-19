@@ -13,6 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: nettoyage docker
+      run: |
+        docker system prune -a -f
+
     - name: Build et push de l’image Docker
       run: |
         # Utilisation du NodePort externe (30470)
@@ -27,6 +31,5 @@ jobs:
       run: |
         docker pull $(minikube ip):30470/ton-image
         minikube image load $(minikube ip):30470/ton-image:latest
-        kubectl create deployment project --image=$(minikube ip):30470/ton-image:latest --dry-run=client -o yaml > deploy-project.yaml
-        kubectl apply -f deploy-project.yaml
+      
 
