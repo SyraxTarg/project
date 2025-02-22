@@ -32,11 +32,33 @@ jobs:
         docker pull $(minikube ip):30470/project-python
         minikube image load $(minikube ip):30470/project-python:latest
         kubectl delete deployment project2-pipeline --ignore-not-found=true
-        kubectl apply -f deployment.yaml  # Appliquer directement le fichier propre
+        cat <<EOF | kubectl apply -f -
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: project2-pipeline
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: project2-pipeline
+          template:
+            metadata:
+              labels:
+                app: project2-pipeline
+            spec:
+              containers:
+                - name: project-python
+                  image: $(minikube ip):30470/project-python:latest
+                  imagePullPolicy: Always
+                  ports:
+                    - containerPort: 5000
+        EOF
         kubectl expose deployment/project2-pipeline --type="NodePort" --port=5000 --name=project2-pipeline
         kubectl get pods
         kubectl get svc
         kubectl get ingress
+
 
 
       
