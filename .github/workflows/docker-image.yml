@@ -30,7 +30,7 @@ jobs:
     - name: deploy
       run: |
         docker pull $(minikube ip):30470/project-python
-        minikube image load $(minikube ip):30470/project-python:latest
+        minikube image load $(minikube ip):30470/project-python
         kubectl delete deployment project2-pipeline --ignore-not-found=true
         cat <<EOF | kubectl apply -f -
         apiVersion: apps/v1
