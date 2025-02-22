@@ -29,9 +29,22 @@ jobs:
 
     - name: deploy
       run: |
-        docker pull $(minikube ip):30470/project-python
-        minikube image load $(minikube ip):30470/project-python
+        # Récupérer l'adresse IP de Minikube
+        MINIKUBE_IP=$(minikube ip)
+    
+        # Pull l'image Docker
+        docker pull $MINIKUBE_IP:30470/project-python:latest
+    
+        # Charger l'image dans Minikube
+        minikube image load $MINIKUBE_IP:30470/project-python:latest
+    
+        # Supprimer l'ancien déploiement s'il existe
         kubectl delete deployment project2-pipeline --ignore-not-found=true
+    
+        # Supprimer l'ancien service pour éviter l'erreur AlreadyExists
+        kubectl delete svc project2-pipeline --ignore-not-found=true
+    
+        # Déployer l'application
         cat <<EOF | kubectl apply -f -
         apiVersion: apps/v1
         kind: Deployment
@@ -49,12 +62,19 @@ jobs:
             spec:
               containers:
                 - name: project-python
-                  image: $(minikube ip):30470/project-python:latest
-                  imagePullPolicy: Always
+                  image: $MINIKUBE_IP:30470/project-python:latest
+                  imagePullPolicy: IfNotPresent
                   ports:
                     - containerPort: 5000
         EOF
+    
+        # Ajouter un délai pour s'assurer que le pod démarre correctement
+        sleep 5
+    
+        # Exposer l'application en NodePort
         kubectl expose deployment/project2-pipeline --type="NodePort" --port=5000 --name=project2-pipeline
+    
+        # Vérifier que tout fonctionne
         kubectl get pods
         kubectl get svc
         kubectl get ingress
