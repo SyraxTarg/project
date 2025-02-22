@@ -32,7 +32,7 @@ jobs:
         docker pull $(minikube ip):30470/project-python
         minikube image load $(minikube ip):30470/project-python:latest
         kubectl create deployment project2-pipeline --image=$(minikube ip):30470/project-python:latest -o yaml > deploy-project2-pipeline.yaml
-        kubectl apply -f deploy-project2-pipeline.yaml
+        kubectl replace -f deploy-project2-pipeline.yaml
         kubectl expose deployment/project2-pipeline --type="NodePort" --port=5000 --name=project2-pipeline
         kubectl get pods
         kubectl get svc
