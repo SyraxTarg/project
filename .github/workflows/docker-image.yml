@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
     
 jobs:
-  build:
+  build-and-deploy:
     runs-on: self-hosted
 
     steps:
@@ -32,12 +32,12 @@ jobs:
         docker pull $(minikube ip):30470/project-python
         minikube image load $(minikube ip):30470/project-python:latest
         kubectl delete deployment project2-pipeline --ignore-not-found=true
-        kubectl create deployment project2-pipeline --image=$(minikube ip):30470/project-python:latest -o yaml > deploy-project2-pipeline.yaml
-        kubectl apply -f deploy-project2-pipeline.yaml
+        kubectl apply -f deployment.yaml  # Appliquer directement le fichier propre
         kubectl expose deployment/project2-pipeline --type="NodePort" --port=5000 --name=project2-pipeline
         kubectl get pods
         kubectl get svc
         kubectl get ingress
+
 
       
 
