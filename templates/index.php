@@ -22,7 +22,7 @@
       {% if user %}
       <h2>Welcome, {{ user.name }}! HELLO</h2>
       {% else %}
-      <h2>Welcome</h2>
+      <h2>Welcome le s</h2>
       {% endif %}
       {% if user.lastLogin %}
       <h2>Derni&egrave;re connexion le {{user.lastLogin}}</h2>
