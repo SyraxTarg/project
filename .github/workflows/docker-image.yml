@@ -73,11 +73,7 @@ jobs:
     
         # Exposer l'application en NodePort
         kubectl expose deployment/project2-pipeline --type="NodePort" --port=5000 --name=project2-pipeline
-    
-        # Vérifier que tout fonctionne
-        kubectl get pods
-        kubectl get svc
-        kubectl get ingress
+        kubectl port-forward svc/project2-pipeline 8080:5000
 
 
 
